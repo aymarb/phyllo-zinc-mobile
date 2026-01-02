@@ -15,6 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '@/constants/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { BorderRadius, FontSizes, FontWeights, Spacing, Shadows, VIRTUAL_LAB_SCENES } from '@/constants';
+import { LabEquipmentImages, BackgroundImages, PhyllozincLogo } from '@/assets/images';
 
 export default function LabScreen() {
   const colorScheme = useColorScheme();
@@ -32,7 +33,7 @@ export default function LabScreen() {
         >
           <View style={styles.heroContent}>
             <View style={styles.iconContainer}>
-              <Ionicons name="flask" size={48} color="#fff" />
+              <Image source={LabEquipmentImages.beaker} style={styles.heroImage} resizeMode="contain" />
             </View>
             <Text style={styles.heroTitle}>Virtual Lab</Text>
             <Text style={styles.heroSubtitle}>
@@ -154,6 +155,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.lg,
+    overflow: 'hidden',
+  },
+  heroImage: {
+    width: 60,
+    height: 60,
   },
   heroTitle: {
     color: '#fff',

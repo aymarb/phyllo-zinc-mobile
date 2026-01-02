@@ -18,6 +18,7 @@ import { Colors } from '@/constants/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { BorderRadius, FontSizes, FontWeights, Spacing, VIRTUAL_LAB_SCENES } from '@/constants';
 import { useVirtualLabStore } from '@/store';
+import { LabEquipmentImages, BackgroundImages } from '@/assets/images';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -161,12 +162,7 @@ export default function VirtualLabScreen() {
         >
           {/* Scene Image */}
           <View style={[styles.imageContainer, { backgroundColor: colors.card }]}>
-            <LinearGradient
-              colors={[colors.primaryLight, colors.card]}
-              style={styles.imagePlaceholder}
-            >
-              <Ionicons name={(scene.icon || 'flask-outline') as any} size={80} color={colors.primary} />
-            </LinearGradient>
+            {renderSceneImage(currentScene, colors)}
           </View>
 
           {/* Scene Info */}
@@ -232,6 +228,74 @@ export default function VirtualLabScreen() {
     </View>
   );
 }
+
+// Render scene image based on scene index
+function renderSceneImage(sceneIndex: number, colors: typeof Colors.light): React.ReactNode {
+  // Map scene index to appropriate images
+  const sceneImages: Record<number, any[]> = {
+    0: [LabEquipmentImages.meniranleaves, BackgroundImages.meniran], // Collect Leaves / Contaminated Farm
+    1: [LabEquipmentImages.grinder, LabEquipmentImages.beaker], // Grind Leaves
+    2: [LabEquipmentImages.solvent, LabEquipmentImages.beaker], // Mix Solvent
+    3: [LabEquipmentImages.hotplate, LabEquipmentImages.beaker], // Hot Maceration
+    4: [LabEquipmentImages.filterpaper, LabEquipmentImages.beaker], // Filter Extract
+    5: [BackgroundImages.zinc, LabEquipmentImages.beaker], // Make Zinc NP
+    6: [LabEquipmentImages.finalproduct], // Final Mix
+  };
+
+  const images = sceneImages[sceneIndex] || [LabEquipmentImages.beaker];
+
+  return (
+    <View style={sceneImageStyles.container}>
+      <LinearGradient
+        colors={[colors.primaryLight + '40', colors.card]}
+        style={sceneImageStyles.gradient}
+      >
+        <View style={sceneImageStyles.imageRow}>
+          {images.map((img, idx) => (
+            <Image
+              key={idx}
+              source={img}
+              style={[
+                sceneImageStyles.image,
+                images.length === 1 && sceneImageStyles.singleImage,
+              ]}
+              resizeMode="contain"
+            />
+          ))}
+        </View>
+      </LinearGradient>
+    </View>
+  );
+}
+
+const sceneImageStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 250,
+    borderRadius: BorderRadius.xl,
+    overflow: 'hidden',
+  },
+  gradient: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: Spacing.lg,
+  },
+  imageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.lg,
+  },
+  image: {
+    width: 120,
+    height: 150,
+  },
+  singleImage: {
+    width: 180,
+    height: 200,
+  },
+});
 
 // Render interactive content based on scene type
 function renderInteractiveContent(

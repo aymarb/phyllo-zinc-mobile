@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { BorderRadius, FontSizes, FontWeights, Spacing, Shadows, TEAM_MEMBERS } from '@/constants';
+import { getTeamMemberImage } from '@/assets/images';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH * 0.7;
@@ -63,6 +64,7 @@ export function TeamCarousel() {
 
   const renderMember = ({ item, index }: { item: TeamMember; index: number }) => {
     const isActive = index === currentIndex;
+    const imageSource = getTeamMemberImage(item.image);
 
     return (
       <Animated.View
@@ -81,7 +83,7 @@ export function TeamCarousel() {
       >
         <View style={[styles.imageContainer, { backgroundColor: '#f0fdf4' }]}>
           <Image
-            source={{ uri: `https://via.placeholder.com/300x350?text=${item.name.split(' ')[0]}` }}
+            source={imageSource}
             style={styles.image}
             resizeMode="cover"
           />

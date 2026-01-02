@@ -29,6 +29,7 @@ import {
 import { useArticlesStore, useAuthStore } from '@/store';
 import { ArticleCard } from '@/components/article-card';
 import { TeamCarousel } from '@/components/team-carousel';
+import { PhyllozincLogo, BackgroundImages } from '@/assets/images';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -64,7 +65,7 @@ export default function HomeScreen() {
       >
         {/* Hero Section */}
         <ImageBackground
-          source={{ uri: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800' }}
+          source={BackgroundImages.grassland}
           style={[styles.heroSection, { paddingTop: insets.top }]}
         >
           <LinearGradient
@@ -75,7 +76,7 @@ export default function HomeScreen() {
             <View style={styles.header}>
               <View style={styles.logoContainer}>
                 <View style={[styles.logoCircle, { backgroundColor: colors.primary }]}>
-                  <Ionicons name="leaf" size={20} color="#fff" />
+                  <Image source={PhyllozincLogo} style={styles.logoImage} resizeMode="cover" />
                 </View>
                 <Text style={styles.logoText}>PhylloZinc</Text>
               </View>
@@ -379,6 +380,11 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  logoImage: {
+    width: 36,
+    height: 36,
   },
   logoText: {
     color: '#fff',
