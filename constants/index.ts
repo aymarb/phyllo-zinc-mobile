@@ -96,7 +96,7 @@ export const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 44 : StatusBar.currentHe
 export const BOTTOM_TAB_HEIGHT = 60;
 
 // API Configuration
-export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000';
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://phyllo-zinc-final-deployment.vercel.app';
 
 // Team members data
 export const TEAM_MEMBERS = [

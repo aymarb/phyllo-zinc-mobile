@@ -16,8 +16,10 @@ import { BorderRadius, FontSizes, FontWeights, Spacing, Shadows, TEAM_MEMBERS } 
 import { getTeamMemberImage } from '@/assets/images';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = SCREEN_WIDTH * 0.7;
-const CARD_SPACING = Spacing.md;
+const CARD_WIDTH = SCREEN_WIDTH * 0.75;
+const CARD_MARGIN = Spacing.sm;
+const ITEM_WIDTH = CARD_WIDTH + CARD_MARGIN * 2;
+const SIDE_PADDING = (SCREEN_WIDTH - CARD_WIDTH) / 2 - CARD_MARGIN;
 
 interface TeamMember {
   id: number;
@@ -36,10 +38,9 @@ export function TeamCarousel() {
 
   const scrollToIndex = (index: number) => {
     const clampedIndex = Math.max(0, Math.min(index, TEAM_MEMBERS.length - 1));
-    flatListRef.current?.scrollToIndex({
-      index: clampedIndex,
+    flatListRef.current?.scrollToOffset({
+      offset: clampedIndex * ITEM_WIDTH,
       animated: true,
-      viewPosition: 0.5,
     });
     setCurrentIndex(clampedIndex);
   };
@@ -73,14 +74,20 @@ export function TeamCarousel() {
           {
             width: CARD_WIDTH,
             backgroundColor: colors.card,
-            borderColor: item.isSupervisor ? colors.primary : colors.border,
-            borderWidth: item.isSupervisor ? 2 : 1,
+            borderColor: isActive ? colors.primary : colors.border,
+            borderWidth: isActive ? 2 : 1,
             transform: [{ scale: isActive ? 1 : 0.9 }],
             opacity: isActive ? 1 : 0.7,
           },
           Shadows.lg,
         ]}
       >
+        {/* Supervisor badge */}
+        {item.isSupervisor && (
+          <View style={[styles.supervisorBadge, { backgroundColor: colors.primary }]}>
+            <Text style={styles.supervisorBadgeText}>Supervisor</Text>
+          </View>
+        )}
         <View style={[styles.imageContainer, { backgroundColor: '#f0fdf4' }]}>
           <Image
             source={imageSource}
@@ -138,14 +145,14 @@ export function TeamCarousel() {
         keyExtractor={(item) => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + CARD_SPACING}
+        snapToInterval={ITEM_WIDTH}
         decelerationRate="fast"
         contentContainerStyle={styles.listContainer}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={(data, index) => ({
-          length: CARD_WIDTH + CARD_SPACING,
-          offset: (CARD_WIDTH + CARD_SPACING) * index,
+          length: ITEM_WIDTH,
+          offset: ITEM_WIDTH * index,
           index,
         })}
       />
@@ -195,13 +202,27 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.lg,
   },
   listContainer: {
-    paddingHorizontal: (SCREEN_WIDTH - CARD_WIDTH) / 2,
+    paddingHorizontal: SIDE_PADDING,
   },
   card: {
     width: CARD_WIDTH,
-    marginHorizontal: CARD_SPACING / 2,
+    marginHorizontal: CARD_MARGIN,
     borderRadius: BorderRadius.xl,
     overflow: 'hidden',
+  },
+  supervisorBadge: {
+    position: 'absolute',
+    top: Spacing.md,
+    right: Spacing.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+    borderRadius: BorderRadius.full,
+    zIndex: 10,
+  },
+  supervisorBadgeText: {
+    color: '#fff',
+    fontSize: FontSizes.xs,
+    fontWeight: FontWeights.semibold,
   },
   imageContainer: {
     width: '100%',
