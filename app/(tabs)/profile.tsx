@@ -1,19 +1,19 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import React from 'react';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BorderRadius, FontSizes, FontWeights, Spacing } from '@/constants';
 import { Colors } from '@/constants/colors';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { BorderRadius, FontSizes, FontWeights, Spacing, Shadows } from '@/constants';
 import { useAuthStore } from '@/store';
 
 export default function ProfileScreen() {
@@ -66,20 +66,6 @@ export default function ProfileScreen() {
   }
 
   const menuItems = [
-    {
-      title: 'Account',
-      items: [
-        { icon: 'person-outline', label: 'Edit Profile', onPress: () => Alert.alert('Coming Soon', 'Profile editing will be available soon.') },
-        { icon: 'notifications-outline', label: 'Notifications', onPress: () => Alert.alert('Coming Soon', 'Notification settings will be available soon.') },
-      ],
-    },
-    {
-      title: 'Content',
-      items: [
-        { icon: 'bookmark-outline', label: 'Saved Articles', onPress: () => Alert.alert('Coming Soon', 'Saved articles will be available soon.') },
-        { icon: 'time-outline', label: 'Reading History', onPress: () => Alert.alert('Coming Soon', 'Reading history will be available soon.') },
-      ],
-    },
     ...(isAdmin ? [{
       title: 'Admin',
       items: [
