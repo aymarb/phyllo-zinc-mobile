@@ -111,7 +111,7 @@ export default function HomeScreen() {
               </Text>
               <TouchableOpacity
                 style={styles.ctaButton}
-                onPress={() => router.push('/virtual-lab')}
+                onPress={() => router.push('/lab')}
               >
                 <Text style={styles.ctaButtonText}>Explore Virtual Lab</Text>
               </TouchableOpacity>
