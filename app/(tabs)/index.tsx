@@ -1,37 +1,45 @@
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
   Dimensions,
+  Image,
+  ImageBackground,
+  Linking,
   RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors } from '@/constants/colors';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { BackgroundImages, PhyllozincLogo } from '@/assets/images';
+import { ArticleCard } from '@/components/article-card';
+import { TeamCarousel } from '@/components/team-carousel';
 import {
+  BENEFITS,
   BorderRadius,
   FontSizes,
   FontWeights,
-  Spacing,
-  Shadows,
   METHODOLOGY_STEPS,
-  BENEFITS,
+  Shadows,
+  Spacing,
 } from '@/constants';
+import { Colors } from '@/constants/colors';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useArticlesStore, useAuthStore } from '@/store';
-import { ArticleCard } from '@/components/article-card';
-import { TeamCarousel } from '@/components/team-carousel';
-import { PhyllozincLogo, BackgroundImages } from '@/assets/images';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const SOCIAL_LINKS = {
+  instagram: "https://www.instagram.com/pkmreugm_phyllozinc/",
+  youtube: "https://www.youtube.com/@pkmreugm_phyllozinc", 
+  facebook: "https://www.facebook.com/profile.php?id=61578299128790&sk=about",   
+  tiktok: "https://www.tiktok.com/@pkmreugm_phyllozinc",       
+};
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -312,7 +320,7 @@ export default function HomeScreen() {
         <View style={[styles.footer, { backgroundColor: colors.card, borderTopColor: colors.border }]}>
           <View style={styles.footerLogo}>
             <View style={[styles.logoCircle, { backgroundColor: colors.primary }]}>
-              <Ionicons name="leaf" size={20} color="#fff" />
+              <Image source={PhyllozincLogo} style={styles.logoImage} resizeMode="cover" />
             </View>
             <Text style={[styles.footerLogoText, { color: colors.text }]}>
               PhylloZinc Research
@@ -323,18 +331,24 @@ export default function HomeScreen() {
           </Text>
           
           <View style={styles.socialLinks}>
-            {['logo-instagram', 'logo-youtube', 'logo-facebook'].map((icon, index) => (
+            {[
+              { icon: 'logo-instagram', url: SOCIAL_LINKS.instagram },
+              { icon: 'logo-youtube', url: SOCIAL_LINKS.youtube },
+              { icon: 'logo-facebook', url: SOCIAL_LINKS.facebook },
+              { icon: 'logo-tiktok', url: SOCIAL_LINKS.tiktok },
+            ].map((social, index) => (
               <TouchableOpacity
                 key={index}
                 style={[styles.socialButton, { backgroundColor: colors.primaryLight, borderColor: colors.border }]}
+                onPress={() => Linking.openURL(social.url)}
               >
-                <Ionicons name={icon as any} size={20} color={colors.primary} />
+                <Ionicons name={social.icon as any} size={20} color={colors.primary} />
               </TouchableOpacity>
             ))}
           </View>
 
           <Text style={[styles.copyright, { color: colors.textMuted }]}>
-            © 2025 PhylloZinc Research. All rights reserved.
+            © 2024 PhylloZinc Research. All rights reserved.
           </Text>
         </View>
       </ScrollView>
